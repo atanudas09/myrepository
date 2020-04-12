@@ -1,0 +1,17 @@
+---
+- hosts: all
+  become: true
+  vars:
+    pkg: httpd
+
+  tasks:
+  - name: Install Apache Package
+    yum: name={{ pkg }} state=latest
+    
+  - name: Copy latest index.html
+    copy:
+     src: index.html
+     dest: /var/www/html
+
+  - name: State and Enable Apache service
+    service: name=httpd state=restarted enabled=yes
